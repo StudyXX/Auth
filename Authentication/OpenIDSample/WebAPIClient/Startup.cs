@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace WebAPIClient
 {
@@ -24,6 +26,25 @@ namespace WebAPIClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc1";
+            })
+            .AddOpenIdConnect("oidc1",options =>
+            {
+                options.SignInScheme = "Cookies";
+                options.Authority = "http://localhost:10356/";
+                options.RequireHttpsMetadata = false;
+                options.ClientId = "openid";
+                options.ClientSecret = "pwd";
+                options.ResponseType = "code id_token";
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.Scope.Add("api1");
+                options.Scope.Add("offline_access");
+            })
+            .AddCookie("Cookies");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +54,8 @@ namespace WebAPIClient
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

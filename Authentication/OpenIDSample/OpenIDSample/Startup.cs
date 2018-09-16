@@ -16,6 +16,15 @@ namespace OpenIDSample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddIdentityServer(options =>
+            {
+                options.UserInteraction.LoginUrl = "/login";
+            })
+                .AddDeveloperSigningCredential()
+                .AddClientStore<ClientStore>()
+                .AddProfileService<MyProfileService>()
+                .AddResourceOwnerValidator<MyResourceOwnerValidator>()
+                .AddResourceStore<ResourceStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,6 +34,7 @@ namespace OpenIDSample
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseIdentityServer();
             app.UseStaticFiles();
             app.UseMvc();
         }

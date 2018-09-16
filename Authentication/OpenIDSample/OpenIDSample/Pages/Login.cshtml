@@ -1,12 +1,23 @@
-﻿@page 
+﻿@page
 @model OpenIDSample.Pages.LoginModel
+@{
+    Layout = null;
+}
+@using OpenIDSample
+@namespace OpenIDSample.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <title></title>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
 </head>
 <body>
-    <h1>登陆页面</h1>
+    <form method="post">
+        用户名：<input type="text" name="userName" value="aaaa" />  
+        密码：<input type="password" name="pwd" value="aaaa" />
+        <button>登陆</button>
+    </form>
 </body>
 </html>
