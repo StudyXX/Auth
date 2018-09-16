@@ -10,12 +10,15 @@ namespace SessionSample.Pages
 {
     public class LoginModel : MyPage
     {
+        [BindProperty]
+        public string SessionId { get; set; }
         public IActionResult OnGet()
         {
             if (IsLogin)
             {
                 return RedirectToPage("/Index");
             }
+            SessionId = HttpContext.Session.Id;
             return Page();
         }
 

@@ -9,12 +9,15 @@ namespace SessionSample.Pages
 {
     public class IndexModel : MyPage
     {
+        [BindProperty]
+        public string SessionId { get; set; }
         public IActionResult OnGet()
         {
             if (!IsLogin)
             {
                 return RedirectToPage("/Login");
             }
+            SessionId = HttpContext.Session.Id; 
             return Page();
         }
     }
