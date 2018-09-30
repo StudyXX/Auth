@@ -1,0 +1,31 @@
+﻿@page
+@model LoginModel
+@{
+    Layout = null;
+}
+<form method="post">
+    @if (Model.Schemes.Count > 0)
+    {
+        <table border="1">
+            <caption>当前有 @Model.Schemes.Count 个认证方案</caption>
+            <tbody>
+                <tr>
+                    <th>方案名称</th>
+                    <th>友好显示名称</th>
+                </tr>
+                @foreach (var item in Model.Schemes)
+                {
+                    <tr>
+                        <td>@item.Key</td>
+                        <td>@item.Value</td>
+                        <td>
+                            <button asp-route-scheme="@item.Value" asp-route-redirectUrl="@Model.RedirectToUrl">登陆</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+</form>
+<h1>登陆后跳转到 @Model.RedirectToUrl 页面</h1>
